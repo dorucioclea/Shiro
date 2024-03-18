@@ -6,6 +6,8 @@ import { useParams } from 'next/navigation'
 
 import { NotFound404 } from '~/components/common/404'
 import { NotePasswordForm } from '~/components/modules/note/NotePasswordForm'
+import { StyledButton } from '~/components/ui/button'
+import { isClientSide } from '~/lib/env'
 import { isRequestError, pickStatusCode } from '~/lib/is-error'
 import { setCurrentNoteNid } from '~/providers/note/CurrentNoteIdProvider'
 
@@ -48,18 +50,45 @@ export default ({ error, reset }: { error: Error; reset: () => void }) => {
     )
   }
 
+  const originUrl = isClientSide
+    ? (() => {
+        const url = new URL(location.href)
+        url.hostname = 'cn.innei.ren'
+        return url.toString()
+      })()
+    : ''
+
   return (
     <Paper>
-      <div className="mt-20">
-        <h2>Something went wrong!</h2>
-        <button
-          onClick={
-            // Attempt to recover by trying to re-render the segment
-            () => reset()
-          }
-        >
-          Try again
-        </button>
+      <div className="flex min-h-[calc(100vh-10rem)] flex-col center">
+        <h2 className="mb-5">
+          <p>
+            服务端渲染页面时出现了错误，可能是 Next.js 服务访问 API
+            超时。请刷新重试。
+          </p>
+          <p>
+            多次出现错误请联系开发者 <a href="mailto:i@innei.in">Innei</a>
+            ，谢谢！
+          </p>
+
+          <p>
+            你可以尝试访问国内源站：
+            <a href={originUrl}>cn.innei.ren</a>
+          </p>
+        </h2>
+        <div className="flex gap-4">
+          <StyledButton
+            variant="primary"
+            onClick={() => {
+              location.href = originUrl
+            }}
+          >
+            前往国内源站
+          </StyledButton>
+          <StyledButton variant="secondary" onClick={() => location.reload()}>
+            刷新
+          </StyledButton>
+        </div>
       </div>
     </Paper>
   )

@@ -7,6 +7,7 @@ import { domAnimation, LazyMotion } from 'framer-motion'
 
 import { NormalContainer } from '~/components/layout/container/Normal'
 import { StyledButton } from '~/components/ui/button'
+import { isClientSide } from '~/lib/env'
 
 export default function GlobalError({
   error,
@@ -19,6 +20,13 @@ export default function GlobalError({
     console.error(error)
     // captureException(error)
   }, [error])
+  const originUrl = isClientSide
+    ? (() => {
+        const url = new URL(location.href)
+        url.hostname = 'cn.innei.ren'
+        return url.toString()
+      })()
+    : ''
   return (
     <html>
       <head>
@@ -27,6 +35,10 @@ export default function GlobalError({
       <body>
         <NormalContainer>
           <h1 className="mb-4">禁止访问或者 API 服务出现问题</h1>
+          <p>
+            你可以尝试访问国内源站：
+            <a href={originUrl}>cn.innei.ren</a>
+          </p>
           <div className="flex justify-center">
             <LazyMotion features={domAnimation}>
               <StyledButton onClick={location.reload}>重试</StyledButton>

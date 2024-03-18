@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { headers } from 'next/dist/client/components/headers'
 import type { Metadata } from 'next'
 

@@ -8,11 +8,7 @@ import { FullPageLoading } from '~/components/ui/loading'
 import { apiClient } from '~/lib/request'
 
 export default function Page() {
-  const {
-    data: nid,
-    isError,
-    isLoading,
-  } = useQuery({
+  const { data: nid } = useQuery({
     queryFn: async () => {
       return apiClient.note.getLatest()
     },
