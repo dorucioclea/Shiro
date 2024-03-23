@@ -169,7 +169,7 @@ const Card: FC<{ link: LinkModel }> = ({ link }) => {
       />
       <span className="flex h-full flex-col items-center justify-center space-y-2 py-3">
         <span className="text-lg font-medium">{link.name}</span>
-        <span className="line-clamp-2 break-all text-sm text-base-content/80">
+        <span className="line-clamp-2 text-balance break-all text-center text-sm text-base-content/80">
           {link.description}
         </span>
       </span>
@@ -179,14 +179,14 @@ const Card: FC<{ link: LinkModel }> = ({ link }) => {
 
 const FavoriteSection: FC<FriendSectionProps> = ({ data }) => {
   return (
-    <ul className="relative flex w-full flex-grow flex-col gap-4">
+    <ul className="relative flex w-full grow flex-col gap-4">
       {data.map((link) => {
         return (
           <li key={link.id} className="flex w-full items-end">
             <a
               href={link.url}
               target="_blank"
-              className="flex-shrink-0 text-base leading-none"
+              className="shrink-0 text-base leading-none"
             >
               {link.name}
             </a>
