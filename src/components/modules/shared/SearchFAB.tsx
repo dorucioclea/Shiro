@@ -10,7 +10,6 @@ import {
   useRef,
   useState,
 } from 'react'
-import axios from 'axios'
 import clsx from 'clsx'
 import { AnimatePresence, m } from 'framer-motion'
 import { atom, useAtomValue, useSetAtom } from 'jotai'
@@ -126,16 +125,11 @@ const SearchPanelImpl = () => {
       if (!keyword) {
         return
       }
-      return axios
-        .get<Awaited<ReturnType<typeof apiClient.search.searchByAlgolia>>>(
-          apiClient.search.proxy('algolia').toString(true),
-          {
-            params: {
-              keyword,
-            },
-          },
-        )
-        .then((data) => data.data)
+      return apiClient.search.proxy('algolia').get({
+        params: {
+          keyword,
+        },
+      })
     },
     select: useCallback((data: any) => {
       if (!data?.data) {
